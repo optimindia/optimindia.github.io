@@ -58,4 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // Animación de elementos al hacer scroll
+    const animatedElements = document.querySelectorAll('.service-category, .v-m-v-item, .feature-card');
+
+    const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px',
+        threshold: 0.2 // El 20% del elemento debe ser visible para activar
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target); // Deja de observar una vez que se ha animado
+            }
+        });
+    }, observerOptions);
+
+    animatedElements.forEach(element => {
+        observer.observe(element);
+    });
 });
